@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EduPlay: atividades de cores, formas, palavras e escrita para explorar em grupo, com a mediação de uma educadora.">
+  <meta name="theme-color" content="#1649d8">
+  <title>EduPlay · Vamos descobrir juntos</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231649d8'/%3E%3Ccircle cx='23' cy='24' r='10' fill='%23ffcf33'/%3E%3Cpath d='M35 33h17v17H35z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="engine.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Ir para a atividade</a>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="EduPlay, início"><span class="brand-mark" aria-hidden="true"><i></i><b></b></span><span>Edu<span class="brand-play">Play</span></span></a>
+    <span class="together">Uma descoberta de cada vez.</span>
+    <button class="quiet-button teacher-button" id="open-teacher"><span aria-hidden="true">☰</span> Para a professora</button>
+  </header>
+  <div class="workspace">
+    <nav class="activity-nav" aria-label="Escolha uma atividade">
+      <p class="nav-heading">VAMOS BRINCAR?</p>
+      <button class="activity active" data-activity="colors" aria-current="page"><span class="nav-symbol color-symbol" aria-hidden="true">●</span><span>Cores<small>Organizar e descobrir</small></span><span class="nav-number" aria-hidden="true">1</span></button>
+      <button class="activity" data-activity="shapes"><span class="nav-symbol shape-symbol" aria-hidden="true">▲</span><span>Formas<small>Encontrar os pares</small></span><span class="nav-number" aria-hidden="true">2</span></button>
+      <button class="activity" data-activity="words"><span class="nav-symbol word-symbol" aria-hidden="true">A</span><span>Palavras<small>Ler com ajuda</small></span><span class="nav-number" aria-hidden="true">3</span></button>
+      <button class="activity" data-activity="writing"><span class="nav-symbol writing-symbol" aria-hidden="true">✎</span><span>Minha escrita<small>Experimentar as letras</small></span><span class="nav-number" aria-hidden="true">4</span></button>
+      <div class="group-note"><span class="group-tag" id="group-tag">GRUPO 1</span><p>Um colega joga.<br>Todo mundo ajuda!</p><button id="next-group" class="text-button">Começar outro grupo <span aria-hidden="true">↗</span></button></div>
+    </nav>
+    <main id="main" tabindex="-1">
+      <section class="game-section" id="sorting-section" aria-labelledby="sorting-title">
+        <div class="section-heading"><div><p class="eyebrow" id="sorting-eyebrow">JOGO DAS LINHAS COLORIDAS</p><h1 id="sorting-title">Cada cor no seu lugar.</h1><p class="intro" id="sorting-description">Escolha duas peças para trocar de lugar.</p></div><button class="help-button" id="open-help" aria-label="Como jogar"><span aria-hidden="true">?</span><span>Como jogar</span></button></div>
+        <div class="level-controls"><label for="board-size">Tamanho do tabuleiro</label><select id="board-size"><option value="2">2 × 2 · 4 peças</option><option value="3" selected>3 × 3 · 9 peças</option><option value="4">4 × 4 · 16 peças</option></select><span>Ao mudar, este tabuleiro recomeça.</span></div>
+        <div class="board-panel">
+          <div class="board-toolbar"><span id="board-instruction" class="board-instruction">ESCOLHA UMA PEÇA</span><span class="progress-label"><span id="correct-count">0</span> de <span id="total-count">9</span> no lugar</span></div>
+          <div class="progress-track" role="progressbar" aria-label="Peças no lugar certo" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0"><div id="progress-fill"></div></div>
+          <div id="board" class="board" role="group" aria-label="Peças que podem ser trocadas"></div>
+          <div class="guide-caption">COMBINE COM AS GUIAS AQUI EMBAIXO <span aria-hidden="true">↓</span></div>
+          <div id="guides" class="guides" role="group" aria-label="Guias fixas das colunas"></div>
+          <div class="board-footer"><p id="sort-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">Vamos encontrar a coluna de cada peça?</p><button id="shuffle" class="secondary-button"><span aria-hidden="true">↻</span> Misturar de novo</button></div>
+        </div>
+        <div class="success-banner" id="sort-success" hidden><span class="success-star" aria-hidden="true">★</span><div><h2>Vocês conseguiram!</h2><p>Todas as peças encontraram seu lugar.</p></div><button class="primary-button" id="next-activity">Explorar as formas <span aria-hidden="true">→</span></button></div>
+        <p class="play-note"><span aria-hidden="true">✦</span> Sem pressa. Conversem e escolham juntos.</p>
+      </section>
+      <section class="game-section" id="words-section" aria-labelledby="words-title" hidden>
+        <div class="section-heading"><div><p class="eyebrow">LER COM A PROFESSORA</p><h1 id="words-title">Que palavra combina?</h1><p class="intro">Olhe a cor. Leiam as palavras juntos e escolham uma.</p></div><span class="step-pill" id="word-step">1 de 3</span></div>
+        <div id="words-success" class="success-banner" role="status" hidden><span class="success-star" aria-hidden="true">★</span><div><h2>Atividade concluída!</h2><p>Vocês descobriram os nomes das três cores.</p></div></div><div class="word-panel"><div id="word-swatch" class="word-swatch" role="img"></div><p class="word-prompt">COMO SE ESCREVE O NOME DESTA COR?</p><div id="word-options" class="word-options"></div><p id="word-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">A professora pode ler as opções com vocês.</p><div class="word-actions"><button id="restart-words" class="secondary-button">↻ Reiniciar palavras</button><button id="next-word" class="primary-button" hidden>Próxima cor <span aria-hidden="true">→</span></button></div></div>
+        <p class="play-note">Não precisa saber ler sozinho. Esta é uma descoberta em grupo.</p>
+      </section>
+      <section class="game-section" id="writing-section" aria-labelledby="writing-title" hidden>
+        <div class="section-heading"><div><p class="eyebrow">DO SEU JEITO</p><h1 id="writing-title">Minha vez de escrever.</h1><p class="intro">Vamos tentar escrever uma palavra com a ajuda da professora.</p></div></div>
+        <details class="writing-purpose"><summary>Para que serve esta atividade?</summary><p>Para explorar letras e o uso do teclado com mediação. Eliane lê a palavra com o grupo, aponta uma letra e ajuda a encontrá-la no teclado. Depois, convida a criança a contar o que escreveu. Não é necessário escrever a palavra inteira para participar.</p></details><div class="writing-panel"><ol class="writing-steps"><li><strong>Escolha</strong> uma palavra abaixo.</li><li><strong>Observe</strong> suas letras e procure-as no teclado.</li><li><strong>Digite</strong> sua tentativa e mostre à professora.</li></ol><p class="small-label">1. QUAL PALAVRA VAMOS ESCREVER?</p><div class="writing-prompts" role="group" aria-label="Ideias para escrever"><button class="prompt-card" data-prompt="AZUL" aria-pressed="false"><span class="prompt-dot" aria-hidden="true"></span>AZUL</button><button class="prompt-card" data-prompt="BOLA" aria-pressed="false"><span class="prompt-ball" aria-hidden="true">●</span>BOLA</button><button class="prompt-card" data-prompt="SOL" aria-pressed="false"><span class="prompt-sun" aria-hidden="true">☀</span>SOL</button></div><div id="writing-chosen" class="writing-chosen" hidden><span>SUA IDEIA ESCOLHIDA</span><strong id="writing-model"></strong><p>Procure as letras no teclado. Você pode olhar esta palavra para tentar escrever.</p></div><label for="writing-input" class="writing-label">2. TENTE ESCREVER A PALAVRA AQUI</label><textarea id="writing-input" maxlength="100" spellcheck="false" autocomplete="off" autocapitalize="characters" placeholder="ESCREVA AQUI..." rows="3" aria-describedby="writing-tip"></textarea><p id="writing-tip">Exemplo: escolha SOL, encontre S, O e L no teclado e tente escrever. Pode começar com uma letra. A professora acompanha a tentativa; o jogo não marca certo ou errado.</p><div class="writing-actions"><button id="finish-writing" class="primary-button">3. Mostrar à professora <span aria-hidden="true">✓</span></button><button id="clear-writing" class="secondary-button">Limpar escrita</button></div><p id="writing-feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">Aqui, cada tentativa é uma descoberta.</p></div>
+      </section>
+      <footer class="app-footer"><span>EduPlay · Aprender em companhia</span><span>Sem cadastro · Sem guardar dados das crianças</span></footer>
+    </main>
+  </div>
+  <dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-top"><span class="eyebrow">VAMOS TENTAR?</span><button class="close-button" data-close aria-label="Fechar ajuda">×</button></div><h2 id="help-title">Duas peças, uma troca.</h2><ol class="help-steps"><li>Escolha uma peça.</li><li>Escolha outra. Elas trocam de lugar!</li><li>Junte as peças iguais na coluna da guia.</li></ol><p>Para cancelar, clique de novo na peça escolhida ou pressione Esc. As guias de baixo ficam paradas.</p><button class="primary-button" data-close>Entendi. Vamos jogar!</button></dialog>
+  <dialog id="teacher-dialog" class="teacher-dialog" aria-labelledby="teacher-title"><div class="dialog-top"><span class="eyebrow">MEDIAÇÃO EM GRUPO</span><button class="close-button" data-close aria-label="Fechar orientações">×</button></div><h2 id="teacher-title">Olá, professora Eliane!</h2><p>Convide as crianças a observar, conversar e experimentar. A leitura e a escrita são acompanhadas por você.</p><div class="teacher-grid"><div><h3>5 crianças por vez</h3><p>Demonstre uma troca. Alterne o uso do mouse e convide os colegas a explicar suas escolhas.</p></div><div><h3>Cerca de 12 minutos</h3><p>2 min de demonstração, 7–8 min de rodízio e 2–3 min de palavras, escrita e conversa. Adapte à turma.</p></div><div><h3>Perguntas que ajudam</h3><p>“Qual é a guia desta coluna?” “O que vai acontecer se trocarmos estas peças?”</p></div><div><h3>Sem respostas obrigatórias</h3><p>Na escrita, acolha tentativas. Não há avaliação automática, nota nem comparação entre crianças.</p></div></div><p><strong>Tamanhos:</strong> use 2 × 2 para começar, 3 × 3 para ampliar e 4 × 4 como desafio. Cada mudança reinicia somente o tabuleiro atual.</p><p><strong>Teclado:</strong> Tab percorre os controles; Enter ou Espaço seleciona as peças; Esc cancela a seleção.</p><p><strong>Privacidade:</strong> a escrita fica somente nesta página e é apagada ao recarregar ou começar outro grupo. Evite nomes ou outros dados pessoais.</p><div class="dialog-actions"><a class="primary-button" href="guia-professora.html" target="_blank" rel="noopener">Abrir guia e ficha de observação</a><button class="secondary-button" id="teacher-new-group">Começar outro grupo</button><button class="secondary-button" data-close>Voltar ao jogo</button></div></dialog>
+  <dialog id="completion-dialog" class="completion-dialog" aria-labelledby="completion-title" aria-describedby="completion-description"><div class="completion-medal" aria-hidden="true">★</div><p class="eyebrow">DESAFIO CONCLUÍDO</p><h2 id="completion-title">Vocês conseguiram!</h2><p id="completion-description"></p><div class="completion-actions"><button id="completion-next" class="primary-button">Continuar →</button><button id="completion-stay" class="secondary-button">Ver minha atividade</button></div></dialog>
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Recomeçar?</h2><p id="confirm-description"></p><div class="dialog-actions"><button id="confirm-cancel" class="secondary-button">Continuar aqui</button><button id="confirm-ok" class="primary-button">Sim, recomeçar</button></div></dialog>
+  <noscript><p class="noscript">O EduPlay precisa de JavaScript habilitado no navegador para funcionar.</p></noscript>
+</body>
+</html>
